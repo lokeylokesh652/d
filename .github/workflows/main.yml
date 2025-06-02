@@ -1,0 +1,32 @@
+name: Run Gmail OTP Bot
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '*/10 * * * *'  # runs every 10 mins
+
+jobs:
+  run-bot:
+    runs-on: ubuntu-latest
+
+    env:
+      GMAIL_USER: ${{ secrets.GMAIL_USER }}
+      GMAIL_PASSWORD: ${{ secrets.GMAIL_PASSWORD }}
+      TG_BOT_TOKEN: ${{ secrets.TG_BOT_TOKEN }}
+      TG_CHAT_ID: ${{ secrets.TG_CHAT_ID }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.11
+
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+
+      - name: Run bot
+        run: python main.py
