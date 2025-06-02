@@ -51,7 +51,7 @@ def check_email():
                 otp_match = re.search(r'\b\d{6}\b', body)
                 if otp_match:
                     otp = otp_match.group()
-                    message = f"📨 New Instagram OTP: {otp}"
+                    message = f"📨 New Instagram OTP: `{otp}`"
                     print(message)
                     send_telegram_message(message)
                 else:
