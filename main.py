@@ -10,17 +10,15 @@ GMAIL_PASSWORD = 'esaneurrvpmcxdnk'  # Use your Gmail App Password here
 TELEGRAM_BOT_TOKEN = '7485486399:AAFSA0M5O5jePlIQw-hLsia_8Nv6XmjhEUw'
 TELEGRAM_CHAT_ID = '7437878492'
 
-# ====== Send Telegram Message ======
 def send_telegram_message(text):
     url = f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/sendMessage"
     payload = {
         "chat_id": TELEGRAM_CHAT_ID,
         "text": text,
-        "parse_mode": "Markdown"  # ✅ Monospace formatting enabled
+        "parse_mode": "Markdown"  # ✅ Make OTP monospace
     }
     requests.post(url, data=payload)
 
-# ====== Check Gmail Inbox for OTP ======
 def check_email():
     mail = imaplib.IMAP4_SSL("imap.gmail.com")
     mail.login(GMAIL_USER, GMAIL_PASSWORD)
@@ -49,7 +47,7 @@ def check_email():
         otp_match = re.search(r'\b\d{6}\b', body)
         if otp_match:
             otp = otp_match.group()
-            message = f"📨 New Instagram OTP: `{otp}`"  # ✅ Wrapped in backticks
+            message = f"📨 New Instagram OTP: `{otp}`"  # ✅ OTP in monospace
             print(message)
             send_telegram_message(message)
         else:
@@ -57,7 +55,6 @@ def check_email():
 
     mail.logout()
 
-# ====== Main Loop ======
 if __name__ == "__main__":
     print("🚀 OTP Bot started... waiting for new emails.")
     while True:
